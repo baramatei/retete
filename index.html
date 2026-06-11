@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descoperă o colecție diversificată de rețete gourmet interactive. Calculează porțiile dinamic, bifează ingredientele pregătite și urmărește instrucțiunile de preparare pas cu pas.">
+    <title>Arome & Gust - Rețete Interactive Gourmet</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Custom CSS Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Header Section -->
+        <header>
+            <div class="logo-section">
+                <h1>Arome <span>& Gust</span></h1>
+                <p>Inspirație culinară la tine în bucătărie</p>
+            </div>
+            
+            <div class="header-actions">
+                <!-- Favorites Toggle Filter -->
+                <button id="favToggleBtn" class="fav-toggle-btn" title="Arată doar rețetele favorite" aria-label="Filtrează rețete favorite">
+                    <i class="fas fa-heart"></i>
+                    <span id="favBadge" class="fav-badge" style="display: none;">0</span>
+                </button>
+                
+                <!-- Theme (Dark/Light) Switcher -->
+                <button id="themeToggle" class="theme-toggle" title="Schimbă tema (Luminos/Întunecat)" aria-label="Schimbă tema vizuală">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Search and Filter Section -->
+            <section class="search-filter-section">
+                <div class="search-box-wrapper">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Caută după rețetă sau ingredient (ex: paste, avocado)..." aria-label="Caută rețete">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="categories-wrapper">
+                    <button class="filter-tag active" data-category="toate">
+                        <i class="fas fa-utensils"></i> Toate rețetele
+                    </button>
+                    <button class="filter-tag" data-category="fel principal">
+                        <i class="fas fa-hotdog"></i> Fel principal
+                    </button>
+                    <button class="filter-tag" data-category="paste">
+                        <i class="fas fa-plate-wheat"></i> Paste
+                    </button>
+                    <button class="filter-tag" data-category="desert">
+                        <i class="fas fa-cookie-bite"></i> Desert
+                    </button>
+                    <button class="filter-tag" data-category="vegetarian">
+                        <i class="fas fa-seedling"></i> Vegetarian
+                    </button>
+                    <button class="filter-tag" data-category="sănătos">
+                        <i class="fas fa-apple-whole"></i> Sănătos
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recipes Grid Display -->
+            <section id="recipesGrid" class="recipes-grid">
+                <!-- Dynamic recipe cards injected here by app.js -->
+            </section>
+        </main>
+        
+    </div>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            
+            <!-- Close Button -->
+            <button id="modalCloseBtn" class="modal-close-btn" aria-label="Închide fereastra modală">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Hero Image and Title -->
+            <div class="modal-header-hero">
+                <img id="modalHeroImg" class="modal-hero-img" src="" alt="">
+                <div class="modal-hero-overlay"></div>
+                <div class="modal-header-text">
+                    <span id="modalCategory" class="modal-category-badge"></span>
+                    <h2 id="modalTitle" class="modal-title"></h2>
+                    <p id="modalDesc" class="modal-desc"></p>
+                </div>
+            </div>
+            
+            <!-- Modal Content Body -->
+            <div class="modal-body">
+                
+                <!-- Specs Bar -->
+                <div class="specs-bar">
+                    <div class="spec-item">
+                        <i class="far fa-clock spec-icon"></i>
+                        <span class="spec-label">Timp preparare</span>
+                        <span id="specTime" class="spec-val"></span>
+                    </div>
+                    
+                    <div class="spec-item">
+                        <i class="fas fa-chart-line spec-icon"></i>
+                        <span class="spec-label">Dificultate</span>
+                        <span id="specDifficulty" class="spec-val"></span>
+                    </div>
+                    
+                    <div class="spec-item">
+                        <i class="fas fa-users spec-icon"></i>
+                        <span class="spec-label">Porții (Scalează)</span>
+                        <div class="servings-control">
+                            <button id="decreaseServings" class="servings-btn" aria-label="Scade numărul de porții">-</button>
+                            <span id="servingsCount" class="servings-count">2</span>
+                            <button id="increaseServings" class="servings-btn" aria-label="Crește numărul de porții">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ingredients and Utensils Grid -->
+                <div class="recipe-details-grid">
+                    <!-- Ingredients List Column -->
+                    <div class="ingredients-column">
+                        <h3 class="section-title">
+                            <i class="fas fa-pepper-hot"></i> Ingrediente
+                        </h3>
+                        <ul id="ingredientsList" class="interactive-list">
+                            <!-- Dynamic items with checkboxes -->
+                        </ul>
+                    </div>
+                    
+                    <!-- Utensils List Column -->
+                    <div class="utensils-column">
+                        <h3 class="section-title">
+                            <i class="fas fa-blender"></i> Ustensile necesare
+                        </h3>
+                        <ul id="utensilsList" class="interactive-list">
+                            <!-- Dynamic items with checkboxes -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Steps column -->
+                <div class="steps-column">
+                    <h3 class="section-title">
+                        <i class="fas fa-list-ol"></i> Mod de preparare pas cu pas
+                    </h3>
+                    <div id="stepsList" class="steps-list">
+                        <!-- Dynamic step-by-step description cards -->
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Info/Warning Banner -->
+    <div id="warningBanner" class="warning-banner">
+        <i class="fas fa-exclamation-triangle warning-icon"></i>
+        <div class="warning-text">
+            <strong>Notă:</strong> Imaginile au rol sugestiv și pot să nu coincidă în totalitate cu preparatul finit din cauza unei erori tehnice de generare.
+        </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="recipes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
